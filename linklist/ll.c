@@ -8,33 +8,115 @@ typedef struct Node {
 } Node;
 
 typedef struct LinkedList {
-  struct Node *start;
+  struct Node *head;
 } LinkedList;
 
-Node *NodeFactory( int value ) {
-  Node *node;
+Node *createNode() {
+  return (Node *) malloc( sizeof( Node ) );
+}
 
-  node = (Node *) malloc( sizeof( Node ) );
+LinkedList *createList() {
+  LinkedList *list = (LinkedList *) malloc( sizeof( LinkedList ) );
+  Node *head = createNode();
+
+  head->prev = NULL;
+  head->next = NULL;
+  head->value = 0;
+
+  list->head = head;
+
+  return list;
+}
+
+void appendNode( Node *node, int value ) {
+  Node *newNode = createNode();
+
+  node->next = newNode;
+
+  newNode->prev = node;
+  newNode->next = NULL;
+  newNode->value = value;
+}
+
+void removeNode( Node *node ) {
+  node->prev->next = node->next;
+  node->next->prev = node->prev;
+
+  free( node );
+}
+
+void insertNode( Node *node, int value ) {
+  Node *newNode = createNode();
   
-  node->value = value;
+  Node *prev = node->prev;
+
+  node->prev = newNode;
+  prev->next = newNode;
+
+  newNode->prev = prev;
+  newNode->next = node;
+  newNode->value = value;
+}
+
+Node *lastNode( LinkedList *list ) {
+  Node *node = list->head;
+
+  while ( node->next != NULL ) {
+    node = node->next;
+  }
 
   return node;
 }
 
+Node *nodeAtIndex( LinkedList *list, int index ) {
+  Node *node = list->head;
+  int currentPosition = 0;
+
+  while ( (node = node->next) != NULL ) {
+    if ( (currentPosition++) == index ) {
+      return node;
+    }
+  }
+
+  return NULL;
+}
+
+void append( LinkedList *list, int value ) {
+  appendNode( lastNode( list ), value );
+}
+
+void printList( LinkedList *list ) {
+  Node *node = list->head;
+
+  printf("[");
+  while ( (node = node->next) != NULL ) {
+    printf( "%d", node->value );
+    if (node->next != NULL) {
+      printf(", ");
+    }
+  }
+  printf("]\n");
+}
+
 int main( int argc, char *argv[] ) {
-  printf( "Size of Node: %lu\n", sizeof( Node ) ); 
-  
-  Node *node1, *node2;
+  LinkedList *list = createList();
 
+  append( list, 3 );
+  append( list, 5 );
+  append( list, 7 );
+  append( list, 11 );
+  append( list, 13 );
+  append( list, 17 );
 
-  node1 = (Node *) NodeFactory( 23 );
-  node2 = (Node *) NodeFactory( 123 );
+  printList( list );
 
-  node1->prev = NULL;
-  node1->next = node2;
+  removeNode( nodeAtIndex( list, 2 ) );
 
-  node2->prev = node2;
-  node2->next = NULL;
+  printList( list );
+
+  insertNode( nodeAtIndex( list, 2 ), 123 );
+
+  printList( list );
 
   return 0;
 }
