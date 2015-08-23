@@ -9,7 +9,7 @@ class Deck {
   public:
     Deck();
     void shuffle();
-    Card nextCard();
+    Card *nextCard();
 };
 
 #endif

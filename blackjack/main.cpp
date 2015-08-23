@@ -3,9 +3,21 @@
 #include "deck.h"
 
 int main( int argc, char *argv[] ) {
-  Deck deck;
+  // Deck deck;
 
-  for (int i = 0; i < 52; i++) {
-    std::cout << deck.nextCard().toString() << '\n';
-  }
+  // deck.shuffle();
+
+  // Card *currentCard;
+  // for (int i = 0; i < 156; i++) {
+  //   currentCard = deck.nextCard();
+
+  //   if ( currentCard != nullptr ) {
+  //     std::cout << (*currentCard).toString() << '\n';
+  //   } else {
+  //     std::cout << "Out of cards! Shuffling deck.\n";
+  //     deck.shuffle();
+  //   }
+  // }
+
+  return 0;
 }

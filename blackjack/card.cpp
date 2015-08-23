@@ -41,5 +41,5 @@ std::string Card::getValueString() {
 }
 
 std::string Card::toString() {
-  return getSuitString() + ' ' + getValueString();
+  return '[' + getValueString() + ' ' + getSuitString() + ']';
 }
