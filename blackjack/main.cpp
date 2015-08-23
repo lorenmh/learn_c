@@ -1,11 +1,29 @@
 #include <iostream>
+#include <vector>
+#include "player.h"
 #include "card.h"
 #include "deck.h"
 
 int main( int argc, char *argv[] ) {
-  // Deck deck;
+  Deck deck;
 
-  // deck.shuffle();
+  deck.shuffle();
+
+  Player player;
+
+  player.giveCard( deck.nextCard() );
+  player.giveCard( deck.nextCard() );
+  player.giveCard( deck.nextCard() );
+  player.giveCard( deck.nextCard() );
+  player.giveCard( deck.nextCard() );
+
+  player.printHand();
+  player.clearHand();
+
+  player.giveCard( deck.nextCard() );
+  player.giveCard( deck.nextCard() );
+
+  player.printHand();
 
   // Card *currentCard;
   // for (int i = 0; i < 156; i++) {
@@ -18,6 +36,8 @@ int main( int argc, char *argv[] ) {
   //     deck.shuffle();
   //   }
   // }
+
+  
 
   return 0;
 }

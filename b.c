@@ -1,5 +1,8 @@
-#include <stdbool.h>
+#include <stdio.h>
 
-bool z = true;
-
-int main( int argc, char *argv[] ) { }
+int main( int argc, char *argv[] ) {
+  int i;
+  i = 2;
+  i = 2 + 2;
+  printf( "%d", i );
+}
