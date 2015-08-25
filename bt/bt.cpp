@@ -154,6 +154,7 @@ void deleteNode( Tree *tree, Node *node ) {
     transplanter->left->parent = transplanter;
   }
 
+  free( node );
 }
 
 Node *successor( Node *node ) {
