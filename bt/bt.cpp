@@ -124,6 +124,38 @@ void insert( Tree *tree, int key ) {
   }
 }
 
+void transplant( Tree *tree, Node *transplantee, Node *transplanter ) {
+  if ( transplantee->parent == NULL ) {
+    tree->root = transplanter;
+  } else if ( transplantee->parent->left == transplantee ) {
+    transplantee->parent->left = transplanter;
+  } else {
+    transplantee->parent->right = transplanter;
+  }
+  if ( transplantee->parent != NULL ) {
+    transplanter->parent = transplantee->parent;
+  }
+}
+
+void deleteNode( Tree *tree, Node *node ) {
+  if ( node->left == NULL ) {
+    transplant( tree, node, node->right );
+  } else if ( node->right == NULL ) {
+    transplant( tree, node, node->left );
+  } else {
+    Node *transplanter = min( node->right );
+    if ( transplanter->parent != node ) {
+      transplant( tree, node, transplanter->right );
+      transplanter->right = node->right;
+      transplanter->right->parent = transplanter;
+    }
+    transplant( tree, node, transplanter );
+    transplanter->left = node->left;
+    transplanter->left->parent = transplanter;
+  }
+
+}
+
 Node *successor( Node *node ) {
   if ( node->right != NULL ) {
     return min( node->right );
@@ -154,11 +186,9 @@ int main( int argc, char *argv[] ) {
   printByRow( tree->root );
   printf( "\n" );
 
-  Node *maxNode = max( tree->root );
-  Node *minNode = min( tree->root );
+  deleteNode( tree, search( tree->root, 5 ) );
+  printByRow( tree->root ); 
 
-  printf( "Max: %d\n", maxNode->key );
-  printf( "Min: %d\n", minNode->key );
 
   return 0;
 }
