@@ -2,16 +2,13 @@
 #include "card.h"
 #include "randomf.h"
 
-const int NUM_SUITS = 4;
-const int NUM_VALUES = 13;
-constexpr int DECKSIZE = NUM_SUITS * NUM_VALUES;
+const int DECKSIZE = 52;
 
 Deck::Deck() {
   index = 0;
 
   for (int i = 0; i < DECKSIZE; i++) {
-    cards[ i ].setSuit( i % NUM_SUITS );
-    cards[ i ].setValue( i % NUM_VALUES );
+    cards[ i ].setIndex( i );
   }
 }
 

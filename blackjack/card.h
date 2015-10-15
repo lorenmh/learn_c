@@ -4,15 +4,16 @@
 
 class Card {
   private:
+    int index;
     int suit;
     int value;
   public:
     Card();
-    Card(int, int);
+    Card(int);
+    int getIndex();
     int getSuit();
     int getValue();
-    void setSuit(int);
-    void setValue(int);
+    void setIndex(int);
     std::string getSuitString();
     std::string getValueString();
     std::string toString();

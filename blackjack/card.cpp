@@ -2,6 +2,9 @@
 #include <string>
 #include "card.h"
 
+const int NUM_SUITS = 4;
+const int NUM_VALUES = 13;
+
 const std::string suits[] = { "S", "H", "D", "C" };
 
 const std::string values[] = {
@@ -11,9 +14,14 @@ const std::string values[] = {
 Card::Card() {
 }
 
-Card::Card(int initialSuit, int initialValue) {
-  suit = initialSuit;
-  value = initialValue;
+Card::Card(int index) {
+  index = index;
+  suit = ( index % NUM_SUITS );
+  value = ( index % NUM_VALUES );
+}
+
+int Card::getIndex() {
+  return index;
 }
 
 int Card::getSuit() {
@@ -24,12 +32,8 @@ int Card::getValue() {
   return value;
 }
 
-void Card::setSuit(int newSuit) {
-  suit = newSuit;
-}
-
-void Card::setValue(int newValue) {
-  value = newValue;
+void Card::setIndex(int newIndex) {
+  index = newIndex;
 }
 
 std::string Card::getSuitString() {
