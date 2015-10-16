@@ -14,10 +14,10 @@ const std::string values[] = {
 Card::Card() {
 }
 
-Card::Card(int index) {
-  index = index;
-  suit = ( index % NUM_SUITS );
-  value = ( index % NUM_VALUES );
+Card::Card(int i) {
+  index = i;
+  suit = ( i % NUM_SUITS );
+  value = ( i % NUM_VALUES );
 }
 
 int Card::getIndex() {
@@ -34,6 +34,8 @@ int Card::getValue() {
 
 void Card::setIndex(int newIndex) {
   index = newIndex;
+  suit = ( newIndex % NUM_SUITS );
+  value = ( newIndex % NUM_VALUES );
 }
 
 std::string Card::getSuitString() {
