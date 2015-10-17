@@ -1,12 +1,17 @@
-#ifndef MV_RECT_H
-#define MV_RECT_H
+#ifndef RECT_H
+#define RECT_H
 
-class MvRect {
+#include "SDL2/SDL.h"
+
+class Rect {
   private:
-    float[] velocity;
-    unsigned char r;
-    unsigned char g;
-    unsigned char b;
+    SDL_Rect sdlRect;
+    short int r, g, b, a;
   public:
-    MvRect();
-    MvRect( float[], char, char, char )
+    Rect( int x, int y, int w, int h );
+    Rect( int x, int y, int w, short int h,
+          short int r, short int g, short int b, short int a
+    );
+};
+
+#endif
