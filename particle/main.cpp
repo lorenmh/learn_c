@@ -1,32 +1,42 @@
 #include "window.h"
-#include "mvrect.h"
 #include "rect.h"
 
 #include <iostream>
 #include "SDL2/SDL.h"
 
 int main( int argc, char **argv ) {
-  Window window( "This is the title", 200, 200 );
-  SDL_Surface *bg = window.surface;
+  Uint8 bgRgb[] = { 255, 0, 0 };
+  Window window( "This is the title", 1000, 1000, &bgRgb );
 
+  double rectPosition[ 2 ];
+  double rectDimension[ 2 ];
+  double rectVelocity[ 2 ];
+
+  rectPosition[ 0 ] = 20.0;
+  rectPosition[ 1 ] = 20.0;
   
-  MvRect rect( 20, 20, 5, 5, 1, 1 );
-  
-  int pos[2];
-  
-  rect.position( &pos );
-  std::cout << pos[ 0 ] << '\n' << pos[ 1 ] << '\n' ;
+  rectDimension[ 0 ] = 20.0;
+  rectDimension[ 1 ] = 20.0;
 
-  rect.draw( bg );
+  rectVelocity[ 0 ] = 0.05;
+  rectVelocity[ 1 ] = 0.05;
 
-  // int delta[] = { 5, 5 };
-  // rect.move( &delta ); 
+  Rect rect( &rectPosition, &rectDimension, &rectVelocity );
+ 
+  bool quit = false;
+  int counter = 0;
 
-  // rect.position( &pos );
-  // std::cout << pos[ 0 ] << '\n' << pos[ 1 ] << '\n' ;
+  while (!quit) {
+    rect.moveFromVelocity();
+
+    window.draw();
+    rect.draw( window.surface );
+    window.update();
+
+    if ( (++counter) > 5000 ) {
+      quit = true;
+    }
+  }
 
 
-  SDL_FillRect( bg, NULL, SDL_MapRGB( bg->format, 255, 0, 0 ) );
-
-  window.update();
 }
