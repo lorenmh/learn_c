@@ -5,7 +5,7 @@
 
 Window::Window( std::string title, int width, int height ) {
   sdlWindow = NULL;
-  windowSurface = NULL;
+  surface = NULL;
 
 	if ( SDL_Init( SDL_INIT_VIDEO ) < 0 ) {
 		printf( "SDL could not initialize! SDL_Error: %s\n", SDL_GetError() );
@@ -14,7 +14,11 @@ Window::Window( std::string title, int width, int height ) {
 		if ( sdlWindow == NULL ) {
 			printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
 		} else {
-			windowSurface = SDL_GetWindowSurface( sdlWindow );
+			surface = SDL_GetWindowSurface( sdlWindow );
 		}
 	}
+}
+
+void Window::update() {
+  SDL_UpdateWindowSurface( sdlWindow );
 }
