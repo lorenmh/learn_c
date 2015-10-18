@@ -1,5 +1,28 @@
-#include "SDL2/SDL.h"
-#include "SDL2/SDL_opengl.h"
+// code nicked mainly from here:
+// http://lazyfoo.net/tutorials/SDL/50_SDL_and_opengl_2/index.php
+
+
+/* to compile
+    ### installation on ubuntu
+    # install compiler etc
+    sudo apt-get install --yes software-properties-common g++ make
+    # install sdl2
+    sudo apt-get install --yes libsdl2-dev
+    # install opengl
+    sudo apt-get install --yes freeglut3-dev
+    # compile with
+    g++ main.cpp -I /usr/include/SDL2/ -lSDL2  -lGL
+    ## installation on mac
+    # install xcode with command line tools
+    # install sdl2*.dmg, put everything in ~/Library/Frameworks
+    # compile with with g++ (or with clang++)
+    g++ main.cpp -I ~/Library/Frameworks/SDL2.framework/Headers -I OpenGL -framework SDL2  -F ~/Library/Frameworks -framework OpenGL
+*/
+
+
+#include <SDL2/SDL.h>
+#include <GL/glew.h>
+#include <SDL2/SDL_opengl.h>
 #include <stdio.h>
 
 
@@ -53,8 +76,8 @@ bool init()
     else
     {
         //Use OpenGL 2.1
-        SDL_GL_SetAttribute( SDL_GL_CONTEXT_MAJOR_VERSION, 2 );
-        SDL_GL_SetAttribute( SDL_GL_CONTEXT_MINOR_VERSION, 1 );
+        SDL_GL_SetAttribute( SDL_GL_CONTEXT_MAJOR_VERSION, 3 );
+        SDL_GL_SetAttribute( SDL_GL_CONTEXT_MINOR_VERSION, 3 );
 
         //Create window
         gWindow = SDL_CreateWindow( "SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN );
