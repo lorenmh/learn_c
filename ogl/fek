@@ -1,7 +1,9 @@
 //compile with this command on my Ubuntu 12.04 machine:
 //gcc sdl2-opengl-sample.c -o sdl2-opengl-sample -Wall -std=c99 -I/usr/local/include/SDL2 -lSDL2 -I/usr/include/GL -lGL -lGLEW -Wall
-#include <GL/glew.h>
+//#include <GL/glew.h>
+#include <OpenGL/gl.h>
 #include <SDL2/SDL.h>
+#include <iostream>
 
 GLuint BuildShaderProgram(const char *vsPath, const char *fsPath);
 GLuint CreateShader(GLenum eShaderType, const char *strShaderFile);
@@ -29,20 +31,21 @@ int main()
 		printf("There was an error creating the OpenGL context!\n");
 		return 1;
 	}
-	
+
+
 	SDL_GL_MakeCurrent(window, glContext);
-	
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
 	
 	//MUST make a context AND make it current BEFORE glewInit()!
-	glewExperimental = GL_TRUE;
-	GLenum glew_status = glewInit();
-	if (glew_status != 0) 
-    {
-		fprintf(stderr, "Error: %s\n", glewGetErrorString(glew_status));
-        return 1;
-    }
+	// glewExperimental = GL_TRUE;
+	// GLenum glew_status = glewInit();
+	// if (glew_status != 0) 
+  //   {
+	// 	fprintf(stderr, "Error: %s\n", glewGetErrorString(glew_status));
+  //       return 1;
+  //   }
 		
 	const float triangleVertices[] = {
 		0.0f, 0.5f, 0.0f, 1.0f,
@@ -54,6 +57,10 @@ int main()
 		0.0f, 0.0f, 1.0f, 1.0f 	
 	}; //we love you vertices!
 	
+  std::cout << "**************************";
+  std::cout << glGetString(GL_VERSION);
+  std::cout << "**************************";
+
 	GLuint theShaderProgram;
 	theShaderProgram = BuildShaderProgram("vs1.glsl", "fs1.glsl");
 	if (theShaderProgram == -1)
@@ -65,8 +72,8 @@ int main()
 	printf("Using program %d\n", theShaderProgram);
 	
 	GLuint vao;
-	glGenVertexArrays(1, &vao);
-	glBindVertexArray(vao); //make our vertex array object, we need it to restore state we set after binding it. Re-binding reloads the state associated with it.
+	// glGenVertexArrays(1, &vao);
+	// glBindVertexArray(vao); //make our vertex array object, we need it to restore state we set after binding it. Re-binding reloads the state associated with it.
 	
 	GLuint triangleBufferObject;
 	glGenBuffers(1, &triangleBufferObject); //create the buffer
@@ -195,7 +202,7 @@ GLuint CreateShader(GLenum eShaderType, const char *strShaderFile)
 		switch(eShaderType)
 		{
 			case GL_VERTEX_SHADER: sprintf(strShaderType, "vertex"); break;
-			case GL_GEOMETRY_SHADER: sprintf(strShaderType, "geometry"); break;
+			// case GL_GEOMETRY_SHADER: sprintf(strShaderType, "geometry"); break;
 			case GL_FRAGMENT_SHADER: sprintf(strShaderType, "fragment"); break;
 		}
 
