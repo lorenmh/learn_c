@@ -1,6 +1,7 @@
 #include "cmath"
 
 #include "line.h"
+#include "point.h"
 
 Line::Line( const Point& p1, const Point& p2 )
   : p1( p1.x, p1.y ),

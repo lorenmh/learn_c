@@ -22,9 +22,10 @@ Asteroid::Asteroid( float x, float y, float vx, float vy, float rad, float ang,
   angularVelocity = angVel;
 }
 
-// bool Asteroid::collidesPoint( const Point& point ) {
-//   return position.distance( point ) < radius;
-// }
-// bool Asteroid::collidesLine( const Line& line ) {
-//   return position.distance( line ) < radius;
-// }
+bool Asteroid::collidesPoint( const Point& point ) {
+  return position.distance( point ) < radius;
+}
+
+bool Asteroid::collidesLine( Line line ) {
+  return line.distance( position ) < radius;
+}
