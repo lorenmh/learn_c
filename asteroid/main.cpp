@@ -16,5 +16,5 @@ int main( int argc, char* argv[] )
   l.print();
 
   std::cout << '\n';
-  std::cout << l.distance( p3 ) << '\n';
+  std::cout << p3.distance( l ) << '\n';
 }

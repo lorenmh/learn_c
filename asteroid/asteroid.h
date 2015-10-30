@@ -19,7 +19,7 @@ class Asteroid {
               float angVel );
 
     bool collidesPoint( const Point& point );
-    bool collidesLine( Line line );
+    bool collidesLine( const Line& line );
 };
 
 #endif
