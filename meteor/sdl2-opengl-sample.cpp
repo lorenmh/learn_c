@@ -8,7 +8,7 @@ GLuint BuildShaderProgram(const char *vsPath, const char *fsPath);
 GLuint CreateShader(GLenum eShaderType, const char *strShaderFile);
 int main()
 {
-	if (SDL_Init(SDL_INIT_VIDEO) < 0)
+	if ( SDL_Init(SDL_INIT_VIDEO) < 0 )
 			return 1;
 	
 	SDL_Window *window = SDL_CreateWindow("My Game Window",
@@ -18,6 +18,7 @@ int main()
 		SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
 		
 	SDL_GLContext glContext = SDL_GL_CreateContext(window);
+
 	if (glContext == NULL)
 	{
 		printf("There was an error creating the OpenGL context!\n");
@@ -36,8 +37,6 @@ int main()
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
 
-  std::cout << "\n\n" << glGetString(GL_VERSION) << "\n\n" ;
-	
 	//MUST make a context AND make it current BEFORE glewInit()!
 	glewExperimental = GL_TRUE;
 	GLenum glew_status = glewInit();
@@ -48,7 +47,7 @@ int main()
     }
 		
 	const float triangleVertices[] = {
-		0.0f, 0.5f, 0.0f, 1.0f,
+		0.0f, 0.0f, 0.0f, 1.0f,
 		0.5f, -0.366f, 0.0f, 1.0f,
 		-0.5f, -0.366f, 0.0f, 1.0f,
 		//next part contains vertex colors
