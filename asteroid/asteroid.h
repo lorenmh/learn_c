@@ -10,6 +10,7 @@ class Asteroid {
     Point position;
     Vec2 velocity;
     float radius, angle, angularVelocity;
+
   public:
     Asteroid( const Point& pos, const Vec2& vel, float rad, float ang,
               float angVel );
