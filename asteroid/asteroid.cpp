@@ -11,3 +11,13 @@ Asteroid::Asteroid( const Point& pos, const Vec2& vel, float rad, float ang,
   angle = ang;
   angularVelocity = angVel;
 }
+
+Asteroid::Asteroid( float x, float y, float vx, float vy, float rad, float ang,
+                    float angVel )
+  : position( x, y ),
+    velocity( vx, vy )
+{
+  radius = rad;
+  angle = ang;
+  angularVelocity = angVel;
+}

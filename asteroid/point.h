@@ -6,10 +6,8 @@
 class Point {
   public:
     float x, y;
-    inline Point( float x, float y ) {
-      this->x = x;
-      this->y = y;
-    };
+    Point( float x, float y );
+    void print();
 };
 
 #endif
