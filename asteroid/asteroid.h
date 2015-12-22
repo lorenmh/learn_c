@@ -12,14 +12,14 @@ class Asteroid {
     float radius, angle, angularVelocity;
 
   public:
-    Asteroid( const Point& pos, const Vec2& vel, float rad, float ang,
-              float angVel );
+    Asteroid(const Point& pos, const Vec2& vel, float rad, float ang,
+             float angVel);
 
-    Asteroid( float x, float y, float vx, float vy, float rad, float ang,
-              float angVel );
+    Asteroid(float x, float y, float vx, float vy, float rad, float ang,
+             float angVel);
 
-    bool collidesPoint( const Point& point );
-    bool collidesLine( const Line& line );
+    bool collidesPoint(const Point& point);
+    bool collidesLine(const Line& line);
 };
 
 #endif

@@ -7,10 +7,10 @@ class Line;
 class Point {
   public:
     float x, y;
-    Point( float x, float y );
+    Point(float x, float y);
 
-    float distance( const Point& p );
-    float distance( const Line& l );
+    float distance(const Point& p);
+    float distance(const Line& l);
 
     void print();
 };

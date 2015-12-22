@@ -5,7 +5,7 @@ class Vec2 {
   public:
     float x, y;
 
-    inline Vec2( float _x, float _y ) {
+    inline Vec2(float _x, float _y) {
       x = _x;
       y = _y;
     };
