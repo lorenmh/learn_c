@@ -1,5 +1,6 @@
 #include <string>
 #include <sstream>
+#include <iostream>
 #include <chrono> /* C++11 functionality */
 #include <random>
 #include <cstdlib>
@@ -13,6 +14,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+
+#include "shape.h"
 
 /* Shader sources */
 const GLchar* vertexSource =
@@ -152,11 +155,29 @@ int main(int argc, char** argv)
   glGenVertexArrays( 1, &VertexArrayID );
   glBindVertexArray( VertexArrayID );
 
-  static const GLfloat g_vertex_buffer_data[] = {
-    -0.1f, -0.1f, 0.0f,
-    0.1f, -0.1f, 0.0f,
-    0.0f, 0.1f, 0.0f
+  glm::vec2 points[] = {
+    glm::vec2(-0.1f, -0.1f),
+    glm::vec2(0.0f,0.1f),
+    glm::vec2(0.1f,-0.1f)
   };
+  Shape shape(points, 3);
+
+
+  // static const GLfloat g_vertex_buffer_data[] = {
+  //   -0.1f, -0.1f,
+  //   0.1f, -0.1f,
+  //   0.0f, 0.1f
+  // };
+
+
+  GLfloat lines[shape.sizeLines()];
+  shape.lines(lines);
+
+  for (auto &line : lines) {
+    std::cout << line << "\n";
+  }
+
+  // GLfloat g_vertex_buffer_data[shape.sizeLines()] = lines;
 
   GLuint vertexBuffer;
 
@@ -164,8 +185,8 @@ int main(int argc, char** argv)
   glBindBuffer( GL_ARRAY_BUFFER, vertexBuffer );
   glBufferData(
       GL_ARRAY_BUFFER,
-      sizeof( g_vertex_buffer_data ),
-      g_vertex_buffer_data,
+      sizeof( lines ),
+      lines,
       GL_STATIC_DRAW
   );
 
@@ -173,14 +194,14 @@ int main(int argc, char** argv)
   glBindBuffer( GL_ARRAY_BUFFER, vertexBuffer );
   glVertexAttribPointer(
       0,
-      3,
+      2,
       GL_FLOAT,
       GL_FALSE,
       0,
       (void *) 0
   );
 
-  glDrawArrays( GL_TRIANGLES, 0, 3 );
+  glDrawArrays( GL_LINES, 0, shape.sizeLines() );
 
   glDisableVertexAttribArray( 0 );
 
