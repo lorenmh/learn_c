@@ -21,21 +21,33 @@
 //     glm::mat3 transform();
 // };
 
-Shape::Shape(glm::vec2 const* pointsArray, short size)
+Shape::Shape(glm::vec2 const* pointsArray,
+             short size,
+             glm::vec4 color_)
   : points(pointsArray, pointsArray + size)
 {
+  color = color_;
 }
 
 int Shape::size()
 {
-  return points.size();
+  return 4 * points.size();
 }
 
-int Shape::sizeLines() {
-  return 4 * size();
+int Shape::sizeColors()
+{
+  return 2 * size();
 }
 
-void Shape::lines(float* lines)
+void Shape::colors(float* colors)
+{
+  for (int i = 0; i < sizeColors(); i++) {
+    int rgbaIndex = i % 4;
+    colors[i] = color[rgbaIndex];
+  }
+}
+
+void Shape::vertices(float* lines)
 {
   int size = points.size();
 
@@ -48,3 +60,4 @@ void Shape::lines(float* lines)
     lines[linesIndex + 3] = points[(i + 1) % size][1];
   }
 }
+

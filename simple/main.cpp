@@ -20,16 +20,19 @@
 /* Shader sources */
 const GLchar* vertexSource =
 "#version 300 es\n"
-"attribute vec4 vPosition;"
+"layout(location = 0) in vec2 vertex_position;"
+"layout(location = 1) in vec4 vertex_color;"
+"out mediump vec4 color;"
 "void main() {"
-  "gl_Position = vPosition;"
+  "color = vertex_color;"
+  "gl_Position = vec4(vertex_position, 0.0, 1.0);"
 "}";
 
 const GLchar* fragmentSource =
 "#version 300 es\n"
-"precision mediump float;"
+"in mediump vec4 color;"
 "void main() {"
-"   gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);"
+"   gl_FragColor = color;"
 "}";
 
 SDL_Window* initWindow()
@@ -145,6 +148,8 @@ int main(int argc, char** argv)
     GLuint shaderProgram = glCreateProgram();
     glAttachShader(shaderProgram, vertexShader);
     glAttachShader(shaderProgram, fragmentShader);
+    glBindAttribLocation(shaderProgram, 0, "vertex_position");
+    glBindAttribLocation(shaderProgram, 1, "vertex_color");
     glLinkProgram(shaderProgram);
     glUseProgram(shaderProgram);
     glDeleteShader(vertexShader);
@@ -160,7 +165,15 @@ int main(int argc, char** argv)
     glm::vec2(0.0f,0.1f),
     glm::vec2(0.1f,-0.1f)
   };
-  Shape shape(points, 3);
+  Shape shape(points, 3, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
+
+
+  glm::vec2 points2[] = {
+    glm::vec2(-0.3f, -0.2f),
+    glm::vec2(0.1f,0.4f),
+    glm::vec2(0.2f,-0.3f)
+  };
+  Shape shape2(points2, 3, glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
 
 
   // static const GLfloat g_vertex_buffer_data[] = {
@@ -170,27 +183,59 @@ int main(int argc, char** argv)
   // };
 
 
-  GLfloat lines[shape.sizeLines()];
-  shape.lines(lines);
+  GLfloat lines[shape.size()];
+  shape.vertices(lines);
 
-  for (auto &line : lines) {
+  GLfloat colors[shape.sizeColors()];
+  shape.colors(colors);
+
+  GLfloat lines2[shape2.size()];
+  shape2.vertices(lines2);
+
+  GLfloat colors2[shape.sizeColors()];
+  shape2.colors(colors2);
+
+  GLfloat vbo[shape.size() + shape2.size()];
+  std::memcpy(&vbo[0], lines, shape.size() * sizeof(float));
+  std::memcpy(&vbo[shape.size()], lines2, shape2.size() * sizeof(float));
+
+  GLfloat cbo[shape.sizeColors() + shape2.sizeColors()];
+  std::memcpy(&cbo[0], colors, shape.sizeColors() * sizeof(float));
+  std::memcpy(&cbo[shape.sizeColors()], colors2, shape2.sizeColors() * sizeof(float));
+
+  for (auto &line : cbo) {
     std::cout << line << "\n";
   }
 
-  // GLfloat g_vertex_buffer_data[shape.sizeLines()] = lines;
-
   GLuint vertexBuffer;
+  GLuint colorBuffer;
 
   glGenBuffers( 1, &vertexBuffer );
   glBindBuffer( GL_ARRAY_BUFFER, vertexBuffer );
   glBufferData(
       GL_ARRAY_BUFFER,
-      sizeof( lines ),
-      lines,
+      sizeof( vbo ),
+      vbo,
       GL_STATIC_DRAW
   );
 
+
+
+  glGenBuffers( 1, &colorBuffer );
+  glBindBuffer( GL_ARRAY_BUFFER, colorBuffer );
+  glBufferData(
+      GL_ARRAY_BUFFER,
+      sizeof( cbo ),
+      cbo,
+      GL_STATIC_DRAW
+  );
+
+  std::cout << "vertexBuffer: " << vertexBuffer << "\n";
+  std::cout << "colorBuffer: " << colorBuffer << "\n";
+
   glEnableVertexAttribArray( 0 );
+  glEnableVertexAttribArray( 1 );
+
   glBindBuffer( GL_ARRAY_BUFFER, vertexBuffer );
   glVertexAttribPointer(
       0,
@@ -201,10 +246,21 @@ int main(int argc, char** argv)
       (void *) 0
   );
 
-  glDrawArrays( GL_LINES, 0, shape.sizeLines() );
+  glBindBuffer( GL_ARRAY_BUFFER, colorBuffer );
+  glVertexAttribPointer(
+      1,
+      4,
+      GL_FLOAT,
+      GL_FALSE,
+      0,
+      (void *) 0
+  );
+
+  glDrawArrays( GL_LINES, 0, 12 );
 
   glDisableVertexAttribArray( 0 );
+  glDisableVertexAttribArray( 1 );
 
   SDL_GL_SwapWindow( sdlWindow );
-  SDL_Delay( 2000 );
+  SDL_Delay( 20000 );
 } /* main */

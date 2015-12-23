@@ -6,17 +6,17 @@
 
 class Shape {
   public:
-    Shape(glm::vec2 const*, short);
+    Shape(glm::vec2 const*, short, glm::vec4);
     virtual ~Shape() {}
     std::vector<glm::vec2> points;
     glm::vec2 position;
+    glm::vec4 color;
     float rotation;
     glm::vec2 scale;
     int size();
-    int sizeLines();
-    void lines(float*);
-    void triangleVertices(float*);
-    void triangleStripVertices(float*);
+    int sizeColors();
+    void vertices(float*);
+    void colors(float*);
     glm::mat3 transform();
 };
 
