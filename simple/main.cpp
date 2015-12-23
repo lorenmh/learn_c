@@ -170,10 +170,11 @@ int main(int argc, char** argv)
 
   glm::vec2 points2[] = {
     glm::vec2(-0.3f, -0.2f),
-    glm::vec2(0.1f,0.4f),
-    glm::vec2(0.2f,-0.3f)
+    glm::vec2(-0.4f,0.4f),
+    glm::vec2(0.2f,0.3f),
+    glm::vec2(0.3f,-0.3f)
   };
-  Shape shape2(points2, 3, glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
+  Shape shape2(points2, 4, glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
 
 
   // static const GLfloat g_vertex_buffer_data[] = {
@@ -189,11 +190,18 @@ int main(int argc, char** argv)
   GLfloat colors[shape.sizeColors()];
   shape.colors(colors);
 
+
+
   GLfloat lines2[shape2.size()];
   shape2.vertices(lines2);
 
-  GLfloat colors2[shape.sizeColors()];
+  GLfloat colors2[shape2.sizeColors()];
   shape2.colors(colors2);
+
+
+
+  std::cout << "shape: " << sizeof(lines) / sizeof(float) << "\n";
+  std::cout << "shape2: " << sizeof(lines2) / sizeof(float) << "\n";
 
   GLfloat vbo[shape.size() + shape2.size()];
   std::memcpy(&vbo[0], lines, shape.size() * sizeof(float));
@@ -203,9 +211,9 @@ int main(int argc, char** argv)
   std::memcpy(&cbo[0], colors, shape.sizeColors() * sizeof(float));
   std::memcpy(&cbo[shape.sizeColors()], colors2, shape2.sizeColors() * sizeof(float));
 
-  for (auto &line : cbo) {
-    std::cout << line << "\n";
-  }
+  // for (auto &line : cbo) {
+  //   std::cout << line << "\n";
+  // }
 
   GLuint vertexBuffer;
   GLuint colorBuffer;
@@ -256,11 +264,11 @@ int main(int argc, char** argv)
       (void *) 0
   );
 
-  glDrawArrays( GL_LINES, 0, 12 );
+  glDrawArrays( GL_LINES, 0, sizeof(vbo) / sizeof(vbo[0]) );
 
   glDisableVertexAttribArray( 0 );
   glDisableVertexAttribArray( 1 );
 
   SDL_GL_SwapWindow( sdlWindow );
-  SDL_Delay( 20000 );
+  SDL_Delay( 2000 );
 } /* main */
