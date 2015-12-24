@@ -61,3 +61,6 @@ void Shape::vertices(float* lines)
   }
 }
 
+glm::mat3 Shape::transform()
+{
+}
