@@ -10,7 +10,7 @@
 // given 1 vertex, there will be 4 color components (r,g,b,a)
 #define VERT_COLOR_MULT 4
 // the above is used to determine the size. Macro because they are constants
-#define VERT_MULT (VERT_LINE_MULT * VERT_COLOR_MULT)
+#define VERT_MULT (VERT_LINE_MULT + VERT_COLOR_MULT)
 
 // class LineObject3 {
 //   public:
@@ -26,11 +26,14 @@
 //     glm::mat4 transform();
 // };
 
-LineObject3::LineShape3(
+LineObject3::LineObject3(
     glm::vec3 const* vertices_,
     int size_,
     glm::vec4 color_
-) : vertices(vertices_, vertices_ + size_)
+) : vertices(vertices_, vertices_ + size_),
+    rotation(0.0f, 0.0f, 0.0f),
+    scale(1.0f, 1.0f, 1.0f),
+    position(0.0f, 0.0f, 0.0f)
 {
   color = color_;
 }
@@ -38,6 +41,16 @@ LineObject3::LineShape3(
 int LineObject3::vboSize()
 {
   return VERT_MULT * vertices.size();
+}
+
+void LineObject3::dax(float delta)
+{
+  rotation[0] = rotation[0] + delta;
+}
+
+void LineObject3::day(float delta)
+{
+  rotation[1] = rotation[1] + delta;
 }
 
 void LineObject3::vbo(float* target)
@@ -60,7 +73,11 @@ void LineObject3::vbo(float* target)
   }
 }
 
-glm::mat4 LineObject3::transform()
+// void LineObject3::rotateX(float alpha) {
+// 
+// }
+
+void LineObject3::transform(float* target)
 {
   // x,y,z == pitch, yaw, roll
   // glm library wants it in the order of 'Y', 'X', 'Z'
@@ -80,5 +97,7 @@ glm::mat4 LineObject3::transform()
       position
   );
 
-  return tRotation * tScale * tTranslate;
+  glm::mat4 transform = tRotation * tScale * tTranslate;
+
+  std::memcpy(target, &transform, sizeof(float) * 16);
 }
