@@ -13,8 +13,8 @@ class LineObject3 {
     glm::vec3 rotation;
     glm::vec3 scale;
     glm::vec4 color;
-    void dax(float);
-    void day(float);
+    void rx(float);
+    void ry(float);
     int vboSize();
     void vbo(float*);
     void transform(float*);

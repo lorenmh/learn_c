@@ -183,13 +183,14 @@ int main(int argc, char** argv)
   );
 
 
+  GLfloat vbo[shape.vboSize()];
+
   for (int i = 0; i < 500; i++) {
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
     GLuint VertexArrayID;
     glGenVertexArrays( 1, &VertexArrayID );
     glBindVertexArray( VertexArrayID );
 
-    GLfloat vbo[shape.vboSize()];
 
     shape.vbo(vbo);
 

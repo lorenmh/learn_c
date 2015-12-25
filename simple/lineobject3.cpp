@@ -43,12 +43,12 @@ int LineObject3::vboSize()
   return VERT_MULT * vertices.size();
 }
 
-void LineObject3::dax(float delta)
+void LineObject3::rx(float delta)
 {
   rotation[0] = rotation[0] + delta;
 }
 
-void LineObject3::day(float delta)
+void LineObject3::ry(float delta)
 {
   rotation[1] = rotation[1] + delta;
 }
