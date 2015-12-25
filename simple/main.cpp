@@ -80,6 +80,9 @@ SDL_Window* initWindow()
   return sdlWindow;
 }
 
+
+
+
 /* Must use parameters here or else there will be an undefined reference to SDL_main */
 int main(int argc, char** argv)
 {
@@ -108,7 +111,6 @@ int main(int argc, char** argv)
   ss << "\n-------------------------------------------------------------\n";
   SDL_Log(ss.str().c_str());
 
-  glClearColor( 0.2, 0.1, 0.3, 0.0 );
 
   GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
   glShaderSource(vertexShader, 1, &vertexSource, nullptr);
@@ -173,15 +175,40 @@ int main(int argc, char** argv)
     glm::vec3(0.0f, 0.25f, 0.0f),
 
     glm::vec3(0.25f, -0.25f, 0.25f),
-    glm::vec3(0.0f, -0.25f, -0.25f),
+    glm::vec3(0.0f, -0.25f, -0.25f)
   };
 
-  LineObject3 shape = LineObject3(
+  glm::vec3 vertices2[] = {
+    glm::vec3(-0.25f, -0.25f, 0.25f),
+    glm::vec3(0.25f, -0.25f, 0.25f),
+
+    glm::vec3(-0.25f, -0.25f, 0.25f),
+    glm::vec3(0.0f, 0.25f, 0.0f),
+
+    glm::vec3(-0.25f, -0.25f, 0.25f),
+    glm::vec3(0.0f, -0.25f, -0.25f),
+
+    glm::vec3(0.25f, -0.25f, 0.25f),
+    glm::vec3(0.0f, 0.25f, 0.0f),
+
+    glm::vec3(0.0f, -0.25, -0.25f),
+    glm::vec3(0.0f, 0.25f, 0.0f),
+
+    glm::vec3(0.25f, -0.25f, 0.25f),
+    glm::vec3(0.0f, -0.25f, -0.25f)
+  };
+
+  LineObject3 shape(
       vertices, // vertices
       sizeof(vertices) / sizeof(vertices[0]), // size
       glm::vec4(0.0f, 1.0f, 0.0f, 1.0f) // color
   );
 
+  LineObject3 shape2(
+      vertices2, // vertices
+      sizeof(vertices2) / sizeof(vertices2[0]), // size
+      glm::vec4(1.0f, 0.0f, 0.0f, 1.0f) // color
+  );
 
   GLfloat vbo[shape.vboSize()];
 
@@ -266,7 +293,7 @@ int main(int argc, char** argv)
 
     SDL_GL_SwapWindow( sdlWindow );
     SDL_Delay( 1000 / 60 );
-    shape.dax(0.05f);
-    shape.day(0.05f);
+    shape.rx(0.05f);
+    shape.ry(0.05f);
   }
 } /* main */

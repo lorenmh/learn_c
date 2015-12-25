@@ -35,6 +35,7 @@ LineObject3::LineObject3(
     scale(1.0f, 1.0f, 1.0f),
     position(0.0f, 0.0f, 0.0f)
 {
+  std::cout << "address: " << vertices_ << '\n';
   color = color_;
 }
 
@@ -61,15 +62,15 @@ void LineObject3::vbo(float* target)
     glm::vec3 vertex = vertices[i];
 
     // position
-    target[targetIndex]   = vertex[0]; // x component
-    target[++targetIndex] = vertex[1]; // y component
-    target[++targetIndex] = vertex[2]; // z component
+    target[targetIndex++] = vertex[0]; // x component
+    target[targetIndex++] = vertex[1]; // y component
+    target[targetIndex++] = vertex[2]; // z component
     
     // color
-    target[++targetIndex] = color[0]; // r
-    target[++targetIndex] = color[1]; // g
-    target[++targetIndex] = color[2]; // b
-    target[++targetIndex] = color[3]; // a
+    target[targetIndex++] = color[0]; // r
+    target[targetIndex++] = color[1]; // g
+    target[targetIndex++] = color[2]; // b
+    target[targetIndex]   = color[3]; // a
   }
 }
 
@@ -98,6 +99,10 @@ void LineObject3::transform(float* target)
   );
 
   glm::mat4 transform = tRotation * tScale * tTranslate;
+
+  //for (int i = 0; i < 16; i++) {
+  //  target[i] = transform[i/4][i%4];
+  //}
 
   std::memcpy(target, &transform, sizeof(float) * 16);
 }
